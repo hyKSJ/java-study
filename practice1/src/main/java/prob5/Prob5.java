@@ -8,6 +8,7 @@ public class Prob5 {
 		for (i = 1; i < 100; i++) {
 			cnt = 0;
 			if (i/10 !=0 && i / 10 % 3 == 0) {
+				
 				cnt += 1;
 			}
 			if (i%10 !=0 && i % 10 % 3 == 0) {
