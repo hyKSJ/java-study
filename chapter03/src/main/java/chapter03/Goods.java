@@ -1,7 +1,7 @@
 package chapter03;
 
 public class Goods {
-	
+	// static 은 모든 인스턴트가 값이 동시에 공유됨
 	public static int countOfGoods = 0;
 	
 	String name;

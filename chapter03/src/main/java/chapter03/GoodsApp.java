@@ -3,10 +3,12 @@ package chapter03;
 public class GoodsApp {
 
 	public static void main(String[] args) {
+		// static 실험
 		Goods camera = new Goods();
 		Goods camera1 = new Goods();
 		Goods camera2 = new Goods();
 		System.out.println(Goods.countOfGoods);
+		
 //		camera.name = "nikon";
 		camera.setName("nikon");
 //		camera.price = 400000;
