@@ -8,7 +8,9 @@ public class TV {
 	
 
 	public TV(int channel, int volume, boolean power) {
-		// TODO Auto-generated constructor stub
+		this.channel = channel;
+		this.volume = volume;
+		this.power = power;
 	}
 
 	public void power(boolean on) {
@@ -40,6 +42,6 @@ public class TV {
 	}
 
 	public void status() {
-		System.out.println("TV[power=" + (power ? "on" : "off") + ", channel=" + channel + ", volume=" + volume);
+		System.out.println("TV[power=" + (power ? "on" : "off") + ", channel=" + channel + ", volume=" + volume + "]");
 	}
 }
