@@ -4,8 +4,6 @@ public class TV {
 	private int channel; // 1 ~ 255
 	private int volume; // 0 ~ 100
 	private boolean power;
-	
-	
 
 	public TV(int channel, int volume, boolean power) {
 		this.channel = channel;
@@ -18,26 +16,37 @@ public class TV {
 	}
 
 	public void channel(int channel) {
-		this.channel = channel;
+		if (this.power) {
+			this.channel = channel;
+		}
 	}
 
 	public void channel(boolean up) {
-		if (up) {
-			this.channel += 1;
-		} else {
-			this.channel -= 1;
+		if (this.power) {
+
+			if (up) {
+				this.channel += 1;
+			} else {
+				this.channel -= 1;
+			}
 		}
 	}
 
 	public void volume(int volume) {
-		this.volume = volume;
+		if (this.power) {
+			this.volume = volume;
+			
+		}
 	}
 
 	public void volume(boolean up) {
-		if (up) {
-			this.volume += 1;
-		} else {
-			this.volume -= 1;
+		if (this.power) {
+			if (up) {
+				this.volume += 1;
+			} else {
+				this.volume -= 1;
+			}
+			
 		}
 	}
 
