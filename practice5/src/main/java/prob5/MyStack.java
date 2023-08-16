@@ -20,9 +20,9 @@ public class MyStack {
 			}
 		}
 		
-		top += 1;
 		
 		buffer[top] = s;
+		top += 1;
 		
 	}
 
@@ -38,7 +38,6 @@ public class MyStack {
 		if (top == 0) {
 			return true;
 		}
-		top -= 1;
 		return false;
 	}
 
