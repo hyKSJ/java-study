@@ -17,6 +17,12 @@ public class Printer {
 //	public <T> void println(T t) {
 //		System.out.println(t);
 //	}
+	//위에꺼와 같다
+//	public void println(Object o) {
+//		System.out.println(o);
+//	}
+	
+
 	
 	public <T> void println(T... ts) {
 		for (T t : ts) {
