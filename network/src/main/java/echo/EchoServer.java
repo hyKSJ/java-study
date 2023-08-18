@@ -31,7 +31,6 @@ public class EchoServer {
 				int remotePort = remoteInetSocketAddress.getPort();
 				log("connected by client[" + remoteHostAddress + ":" + remotePort + "]");
 
-
 				PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 
