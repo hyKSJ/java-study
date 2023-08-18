@@ -12,7 +12,7 @@ import java.net.SocketException;
 
 public class EchoServer {
 
-	private static final int PORT = 8000;
+	public static final int PORT = 8000;
 
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
@@ -34,8 +34,6 @@ public class EchoServer {
 
 				PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
-
-				pw.println("안녕");
 
 				while (true) {
 					String data = br.readLine();
