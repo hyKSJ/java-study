@@ -111,9 +111,15 @@ public class RequestHandler extends Thread {
 	}
 
 	private void responseStatic404Error(OutputStream outputStream, String protocol) throws IOException {
-//		outputStream.write("HTTP/1.1 404 File Not Found\r\n".getBytes("UTF-8"));
-//		outputStream.write(("Content-Type:text/html; charset=utf-8\r\n").getBytes("UTF-8"));
-//		outputStream.write("\r\n".getBytes());
+		File file = new File(DOCUMENT_ROOT + "/error/404.html");
+
+		byte[] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+
+		outputStream.write("HTTP/1.1 404 File Not Found\r\n".getBytes("UTF-8"));
+		outputStream.write(("Content-Type:" + contentType + "; charset=utf-8\r\n").getBytes("UTF-8"));
+		outputStream.write("\r\n".getBytes());
+		outputStream.write(body);
 		// HTTP/1.1 404 File Not Found\r\n
 		// Content-Type:text/html; charset=utf-8\r\n
 		// \r\n
@@ -121,7 +127,17 @@ public class RequestHandler extends Thread {
 
 	}
 
-	private void responseStatic400Error(OutputStream outputStream, String string) {
+	private void responseStatic400Error(OutputStream outputStream, String protocol) throws IOException {
+		File file = new File(DOCUMENT_ROOT + "/error/400.html");
+
+		byte[] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+
+		outputStream.write("HTTP/1.1 404 File Not Found\r\n".getBytes("UTF-8"));
+		outputStream.write(("Content-Type:" + contentType + "; charset=utf-8\r\n").getBytes("UTF-8"));
+		outputStream.write("\r\n".getBytes());
+		outputStream.write(body);
+
 		// HTTP/1.1 400 Bad Request\r\n
 		// Content-Type:text/html; charset=utf-8\r\n
 		// \r\n
