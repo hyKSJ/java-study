@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Writer;
+
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -14,10 +14,10 @@ import java.util.List;
 public class ChatServerThread extends Thread {
 	private String nickname;
 	private Socket socket;
-	List<Writer> listWriters;
+	List<PrintWriter> listWriters;
 //	public static List<Writer> listWriters;
 
-	public ChatServerThread(Socket socket, List<Writer> listWriters) {
+	public ChatServerThread(Socket socket, List<PrintWriter> listWriters) {
 		this.socket = socket;
 		this.listWriters = listWriters;
 	}
@@ -26,12 +26,12 @@ public class ChatServerThread extends Thread {
 	public void run() {
 		PrintWriter pw = null;
 		BufferedReader br = null;
-		InetSocketAddress remoteInetSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
-		String remoteHostAddress = remoteInetSocketAddress.getAddress().getHostAddress();
-		int remotePort = remoteInetSocketAddress.getPort();
-		log("connected by client[" + remoteHostAddress + ":" + remotePort + "]");
 
 		try {
+			InetSocketAddress remoteInetSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
+			String remoteHostAddress = remoteInetSocketAddress.getAddress().getHostAddress();
+			int remotePort = remoteInetSocketAddress.getPort();
+			log("connected by client[" + remoteHostAddress + ":" + remotePort + "]");
 			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true);
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "utf-8"));
 
@@ -59,10 +59,8 @@ public class ChatServerThread extends Thread {
 				}
 			}
 		} catch (SocketException e) {
-			doQuit(pw);
 			log("suddenly closed by client");
 		} catch (IOException e) {
-			doQuit(pw);
 			log("error:" + e);
 		} finally {
 			try {
@@ -75,13 +73,13 @@ public class ChatServerThread extends Thread {
 		}
 	}
 
-	private void doQuit(Writer writer) {
+	private void doQuit(PrintWriter writer) {
 		removeWriter(writer);
 		String data = this.nickname + "님이 퇴장 하였습니다.";
 		broadcast(data);
 	}
 
-	private void removeWriter(Writer writer) {
+	private void removeWriter(PrintWriter writer) {
 		synchronized (listWriters) {
 			listWriters.remove(writer);
 		}
@@ -94,20 +92,20 @@ public class ChatServerThread extends Thread {
 
 	}
 
-	private void doJoin(String nickName, Writer writer) {
+	private void doJoin(String nickName, PrintWriter writer) {
 		this.nickname = nickName;
 
 		String data = nickName + "님이 참여하였습니다.";
-		broadcast(data);
 		/* writer pool에 저장 */
-		addWriter(writer);
 		// ack
-		PrintWriter printWriter = (PrintWriter) writer;
-		printWriter.println("join:ok");
+		broadcast(data);
+		addWriter(writer);
+		writer.println("join:ok");
+		writer.flush();
 
 	}
 
-	private void addWriter(Writer writer) {
+	private void addWriter(PrintWriter writer) {
 		synchronized (listWriters) {
 			listWriters.add(writer);
 		}
@@ -116,9 +114,8 @@ public class ChatServerThread extends Thread {
 
 	private void broadcast(String data) {
 		synchronized (listWriters) {
-			for (Writer writer : listWriters) {
-				PrintWriter printWriter = (PrintWriter) writer;
-				printWriter.println(data);
+			for (PrintWriter writer : listWriters) {
+				writer.println(data);
 			}
 		}
 	}

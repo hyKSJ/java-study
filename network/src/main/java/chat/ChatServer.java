@@ -1,7 +1,7 @@
 package chat;
 
 import java.io.IOException;
-import java.io.Writer;
+import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,10 +13,11 @@ public class ChatServer {
 
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
-		List<Writer> listWriters = new ArrayList<Writer>();
+		List<PrintWriter> listWriters = new ArrayList<>();
 
 		try {
 			serverSocket = new ServerSocket();
+			serverSocket.setReuseAddress(true);
 
 			serverSocket.bind(new InetSocketAddress("0.0.0.0", PORT), 10);
 			log("starts...[port:" + PORT + "]");
